@@ -1,0 +1,36 @@
+.search {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+
+  & > input[type="text"] {
+    width: 40%;
+    padding: 0.7rem;
+    min-width: 170px;
+    border-radius: 2rem;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+input[type="submit"] {
+  padding: 0.7rem;
+  background-color: transparent;
+  border-radius: 2rem;
+  color: black;
+  border: 1px solid black;
+  width: 80px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #282c34;
+  color: antiquewhite;
+}

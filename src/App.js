@@ -5,8 +5,10 @@ import Search from "./components/search/search.component";
 
 const API_URL = "https://api.spoonacular.com/recipes/complexSearch?";
 
+const key = "d5dec54d4bba40cf94a489496d736abd";
+
 const initialState = {
-  loading: true,
+  loading: false,
   food: [],
   errorMessage: null,
 };
@@ -39,17 +41,27 @@ const reducer = (state, action) => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  /*   useEffect((api_url = `${API_URL}apiKey=fa1eab81ecbb4dbc9f0df16b72494b4a`) => {
+    fetch(api_url)
+      .then((res) => res.json())
+      .then((jsonResponse) => {
+        dispatch({
+          type: "SEARCH_FOOD_SUCCESS",
+          payload: jsonResponse.results,
+        });
+      });
+  }); */
+
   const search = (searchValue) => {
     dispatch({
       type: "SEARCH_FOOD_REQUEST",
     });
 
-    fetch(
-      API_URL + `query=${searchValue}&apiKey=fa1eab81ecbb4dbc9f0df16b72494b4a`
-    )
+    fetch(API_URL + `query=${searchValue}&apiKey=${key}`)
       .then((res) => res.json())
       .then((jsonResponse) => {
-        if (jsonResponse === "True") {
+        console.log(jsonResponse);
+        if (jsonResponse.Response === "True") {
           dispatch({
             type: "SEARCH_FOOD_SUCCESS",
             food: jsonResponse.Search,
@@ -67,19 +79,19 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Foodle</h1>
+      <h1 className='title-logo'>Foodle</h1>
       <Search search={search} />
-      {
-        <div className="food-list">
-          {loading && !errorMessage ? (
-            <span>Loading...</span>
-          ) : errorMessage ? (
-            <div className="errorMessage">{errorMessage}</div>
-          ) : (
-            food.map((item, index) => <Food key={item.id} food={food} />)
-          )}
-        </div>
-      }
+      <div className="food-list">
+        {loading && !errorMessage ? (
+          <span>Loading...</span>
+        ) : errorMessage ? (
+          <div className="errorMessage">{errorMessage}</div>
+        ) : (
+          food.map((item, index) => (
+            <Food key={`${index}-${item.title}`} food={item} />
+          ))
+        )}
+      </div>
     </div>
   );
 }
